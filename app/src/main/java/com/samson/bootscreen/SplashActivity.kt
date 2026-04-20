@@ -1,19 +1,16 @@
 package com.samson.bootscreen
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Intent
-import android.media.AudioAttributes
 import android.media.SoundPool
+import android.media.AudioAttributes
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.WindowManager
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.ProgressBar
@@ -25,161 +22,115 @@ import androidx.core.view.WindowInsetsControllerCompat
 
 class SplashActivity : AppCompatActivity() {
 
-    private lateinit var soundPool: SoundPool
+    private var soundPool: SoundPool? = null
     private var soundS = 0
     private var soundA = 0
     private var soundM = 0
     private var soundChime = 0
     private var soundBoot = 0
-
     private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Full immersive — hide status bar & nav bar
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        val controller = WindowInsetsControllerCompat(window, window.decorView)
-        controller.hide(WindowInsetsCompat.Type.systemBars())
-        controller.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        try {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            val controller = WindowInsetsControllerCompat(window, window.decorView)
+            controller.hide(WindowInsetsCompat.Type.systemBars())
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         setContentView(R.layout.activity_splash)
-
         setupSoundPool()
         startBootSequence()
     }
 
     private fun setupSoundPool() {
-        val attrs = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_MEDIA)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build()
-        soundPool = SoundPool.Builder()
-            .setMaxStreams(5)
-            .setAudioAttributes(attrs)
-            .build()
-
-        // Load sounds — we generate tones programmatically via ToneGenerator fallback
-        // Raw resources loaded if present
         try {
-            soundS     = soundPool.load(this, R.raw.tone_s,     1)
-            soundA     = soundPool.load(this, R.raw.tone_a,     1)
-            soundM     = soundPool.load(this, R.raw.tone_m,     1)
-            soundChime = soundPool.load(this, R.raw.tone_chime, 1)
-            soundBoot  = soundPool.load(this, R.raw.tone_boot,  1)
+            val attrs = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+            soundPool = SoundPool.Builder().setMaxStreams(5).setAudioAttributes(attrs).build()
+            soundS     = soundPool?.load(this, R.raw.tone_s,     1) ?: 0
+            soundA     = soundPool?.load(this, R.raw.tone_a,     1) ?: 0
+            soundM     = soundPool?.load(this, R.raw.tone_m,     1) ?: 0
+            soundChime = soundPool?.load(this, R.raw.tone_chime, 1) ?: 0
+            soundBoot  = soundPool?.load(this, R.raw.tone_boot,  1) ?: 0
         } catch (e: Exception) {
-            // Sounds optional — animation still runs
+            e.printStackTrace()
         }
     }
 
     private fun playSound(id: Int) {
-        if (id != 0) soundPool.play(id, 1f, 1f, 1, 0, 1f)
+        try { if (id != 0) soundPool?.play(id, 1f, 1f, 1, 0, 1f) } catch (e: Exception) {}
     }
 
     private fun startBootSequence() {
-        val letterS      = findViewById<TextView>(R.id.letterS)
-        val letterA      = findViewById<TextView>(R.id.letterA)
-        val letterM      = findViewById<TextView>(R.id.letterM)
-        val tagline      = findViewById<TextView>(R.id.tagline)
-        val divider      = findViewById<View>(R.id.divider)
-        val introBlock   = findViewById<View>(R.id.introBlock)
-        val progressBar  = findViewById<ProgressBar>(R.id.progressBar)
-        val progressPct  = findViewById<TextView>(R.id.progressPct)
-        val scanlines    = findViewById<View>(R.id.scanlines)
-        val ring1        = findViewById<View>(R.id.ring1)
-        val ring2        = findViewById<View>(R.id.ring2)
-        val ring3        = findViewById<View>(R.id.ring3)
+        try {
+            val letterS     = findViewById<TextView>(R.id.letterS)     ?: return
+            val letterA     = findViewById<TextView>(R.id.letterA)     ?: return
+            val letterM     = findViewById<TextView>(R.id.letterM)     ?: return
+            val tagline     = findViewById<TextView>(R.id.tagline)     ?: return
+            val divider     = findViewById<View>(R.id.divider)         ?: return
+            val introBlock  = findViewById<View>(R.id.introBlock)      ?: return
+            val progressBar = findViewById<ProgressBar>(R.id.progressBar) ?: return
+            val progressPct = findViewById<TextView>(R.id.progressPct) ?: return
+            val ring1       = findViewById<View>(R.id.ring1)           ?: return
+            val ring2       = findViewById<View>(R.id.ring2)           ?: return
+            val ring3       = findViewById<View>(R.id.ring3)           ?: return
 
-        // Boot thud at start
-        handler.postDelayed({ playSound(soundBoot) }, 200)
+            handler.postDelayed({ playSound(soundBoot) }, 200)
+            handler.postDelayed({ startRingPulse(ring1, 0L) }, 300)
+            handler.postDelayed({ startRingPulse(ring2, 500L) }, 300)
+            handler.postDelayed({ startRingPulse(ring3, 1000L) }, 300)
 
-        // Start ring pulse animations
-        handler.postDelayed({
-            startRingPulse(ring1, 0L)
-            startRingPulse(ring2, 600L)
-            startRingPulse(ring3, 1200L)
-        }, 300)
+            handler.postDelayed({ animateLetter(letterS); playSound(soundS) }, 700)
+            handler.postDelayed({ animateLetter(letterA); playSound(soundA) }, 1150)
+            handler.postDelayed({ animateLetter(letterM); playSound(soundM) }, 1600)
 
-        // Scanlines fade in
-        handler.postDelayed({
-            scanlines.animate().alpha(1f).setDuration(400).start()
-        }, 300)
+            handler.postDelayed({
+                tagline.visibility = View.VISIBLE
+                tagline.animate().alpha(1f).translationY(0f).setDuration(700)
+                    .setInterpolator(DecelerateInterpolator()).start()
+            }, 2300)
 
-        // ── Letter S ─────────────────────────
-        handler.postDelayed({
-            animateLetter(letterS)
-            playSound(soundS)
-        }, 700)
+            handler.postDelayed({ animateDivider(divider) }, 2700)
 
-        // ── Letter A ─────────────────────────
-        handler.postDelayed({
-            animateLetter(letterA)
-            playSound(soundA)
-        }, 1150)
+            handler.postDelayed({
+                introBlock.visibility = View.VISIBLE
+                introBlock.animate().alpha(1f).translationY(0f).setDuration(700)
+                    .setInterpolator(DecelerateInterpolator()).start()
+            }, 3200)
 
-        // ── Letter M ─────────────────────────
-        handler.postDelayed({
-            animateLetter(letterM)
-            playSound(soundM)
-        }, 1600)
+            handler.postDelayed({
+                progressBar.visibility = View.VISIBLE
+                progressPct.visibility = View.VISIBLE
+                animateProgress(progressBar, progressPct)
+            }, 3700)
 
-        // ── Tagline ───────────────────────────
-        handler.postDelayed({
-            tagline.visibility = View.VISIBLE
-            tagline.animate()
-                .alpha(1f)
-                .translationY(0f)
-                .setDuration(700)
-                .setInterpolator(DecelerateInterpolator())
-                .start()
-        }, 2300)
+            handler.postDelayed({ playSound(soundChime) }, 6800)
+            handler.postDelayed({ fadeOutAndLaunch() }, 7500)
 
-        // ── Divider expand ────────────────────
-        handler.postDelayed({
-            animateDivider(divider)
-        }, 2700)
-
-        // ── Intro block ───────────────────────
-        handler.postDelayed({
-            introBlock.visibility = View.VISIBLE
-            introBlock.animate()
-                .alpha(1f)
-                .translationY(0f)
-                .setDuration(700)
-                .setInterpolator(DecelerateInterpolator())
-                .start()
-        }, 3200)
-
-        // ── Progress bar ──────────────────────
-        handler.postDelayed({
-            progressBar.visibility = View.VISIBLE
-            progressPct.visibility = View.VISIBLE
-            animateProgress(progressBar, progressPct)
-        }, 3700)
-
-        // ── Final chime + launch home ─────────
-        handler.postDelayed({
-            playSound(soundChime)
-        }, 6800)
-
-        handler.postDelayed({
-            fadeOutAndLaunch()
-        }, 7500)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            handler.postDelayed({ fadeOutAndLaunch() }, 2000)
+        }
     }
 
     private fun animateLetter(view: TextView) {
         view.visibility = View.VISIBLE
-        val fadeIn    = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).setDuration(400)
-        val slideUp   = ObjectAnimator.ofFloat(view, "translationY", 60f, 0f).setDuration(450)
-        val scaleX    = ObjectAnimator.ofFloat(view, "scaleX", 0.5f, 1f).setDuration(450)
-        val scaleY    = ObjectAnimator.ofFloat(view, "scaleY", 0.5f, 1f).setDuration(450)
-
         val set = AnimatorSet()
-        set.playTogether(fadeIn, slideUp, scaleX, scaleY)
+        set.playTogether(
+            ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).setDuration(400),
+            ObjectAnimator.ofFloat(view, "translationY", 60f, 0f).setDuration(450),
+            ObjectAnimator.ofFloat(view, "scaleX", 0.5f, 1f).setDuration(450),
+            ObjectAnimator.ofFloat(view, "scaleY", 0.5f, 1f).setDuration(450)
+        )
         set.interpolator = OvershootInterpolator(1.8f)
         set.start()
     }
@@ -188,11 +139,10 @@ class SplashActivity : AppCompatActivity() {
         divider.visibility = View.VISIBLE
         val anim = ValueAnimator.ofInt(0, 600)
         anim.duration = 900
-        anim.interpolator = AccelerateDecelerateInterpolator()
-        anim.addUpdateListener { animator ->
-            val params = divider.layoutParams
-            params.width = animator.animatedValue as Int
-            divider.layoutParams = params
+        anim.addUpdateListener {
+            val p = divider.layoutParams
+            p.width = it.animatedValue as Int
+            divider.layoutParams = p
         }
         anim.start()
     }
@@ -200,53 +150,49 @@ class SplashActivity : AppCompatActivity() {
     private fun startRingPulse(ring: View, initialDelay: Long) {
         fun pulse() {
             ring.scaleX = 0.5f; ring.scaleY = 0.5f; ring.alpha = 0f
-            ring.animate()
-                .scaleX(1.8f).scaleY(1.8f).alpha(0.6f)
-                .setDuration(700)
-                .setInterpolator(DecelerateInterpolator())
+            ring.animate().scaleX(1.8f).scaleY(1.8f).alpha(0.6f)
+                .setDuration(700).setInterpolator(DecelerateInterpolator())
                 .withEndAction {
-                    ring.animate()
-                        .alpha(0f).scaleX(2.4f).scaleY(2.4f)
+                    ring.animate().alpha(0f).scaleX(2.4f).scaleY(2.4f)
                         .setDuration(700)
                         .withEndAction { handler.postDelayed({ pulse() }, 800) }
                         .start()
-                }
-                .start()
+                }.start()
         }
         handler.postDelayed({ pulse() }, initialDelay)
     }
 
-    private fun animateProgress(progressBar: ProgressBar, pctText: TextView) {
-        val animator = ValueAnimator.ofInt(0, 100)
-        animator.duration = 3000
-        animator.interpolator = AccelerateDecelerateInterpolator()
-        animator.addUpdateListener { anim ->
-            val value = anim.animatedValue as Int
-            progressBar.progress = value
-            pctText.text = "$value%"
+    private fun animateProgress(bar: ProgressBar, pct: TextView) {
+        val anim = ValueAnimator.ofInt(0, 100)
+        anim.duration = 3000
+        anim.addUpdateListener {
+            val v = it.animatedValue as Int
+            bar.progress = v
+            pct.text = "$v%"
         }
-        animator.start()
+        anim.start()
     }
 
     private fun fadeOutAndLaunch() {
-        val root = findViewById<View>(R.id.splashRoot)
-        root.animate()
-            .alpha(0f)
-            .setDuration(600)
-            .setInterpolator(AccelerateDecelerateInterpolator())
-            .setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                    finish()
-                }
-            })
-            .start()
+        try {
+            val root = findViewById<View>(R.id.splashRoot)
+            root?.animate()?.alpha(0f)?.setDuration(600)?.withEndAction {
+                startActivity(Intent(this, MainActivity::class.java))
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                finish()
+            }?.start() ?: run {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
+        } catch (e: Exception) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        soundPool.release()
+        soundPool?.release()
         handler.removeCallbacksAndMessages(null)
     }
 }
