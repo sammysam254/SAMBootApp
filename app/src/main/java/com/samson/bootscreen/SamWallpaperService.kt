@@ -7,6 +7,13 @@ import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 import kotlin.math.*
 
+data class Particle(
+    var x: Float, var y: Float,
+    var vx: Float, var vy: Float,
+    var life: Float,
+    var size: Float
+)
+
 class SamWallpaperService : WallpaperService() {
     override fun onCreateEngine(): Engine = SamWallpaperEngine()
 
@@ -18,6 +25,7 @@ class SamWallpaperService : WallpaperService() {
         private var w = 0f
         private var h = 0f
         private val random = java.util.Random()
+        private val particles = mutableListOf<Particle>()
 
         private val bgPaint = Paint().apply { color = Color.BLACK }
 
@@ -52,15 +60,6 @@ class SamWallpaperService : WallpaperService() {
 
         private val vignettePaint = Paint()
 
-        data class Particle(
-            var x: Float, var y: Float,
-            var vx: Float, var vy: Float,
-            var life: Float,
-            var size: Float
-        )
-
-        private val particles = mutableListOf<Particle>()
-
         private val drawRunnable = object : Runnable {
             override fun run() {
                 draw()
@@ -74,7 +73,6 @@ class SamWallpaperService : WallpaperService() {
             textPaint.textSize    = w * 0.22f
             subtextPaint.textSize = w * 0.032f
             taglinePaint.textSize = w * 0.022f
-
             vignettePaint.shader = RadialGradient(
                 w / 2, h / 2,
                 maxOf(w, h) * 0.75f,
@@ -115,8 +113,7 @@ class SamWallpaperService : WallpaperService() {
         }
 
         private fun draw() {
-            val holder = surfaceHolder
-            val canvas = holder.lockCanvas() ?: return
+            val canvas = surfaceHolder.lockCanvas() ?: return
             frame++
             try {
                 val cx = w / 2
@@ -130,11 +127,10 @@ class SamWallpaperService : WallpaperService() {
                     strokeWidth = 0.5f
                     style = Paint.Style.STROKE
                 }
-                val gridSize = 60f
                 var gx = 0f
-                while (gx <= w) { canvas.drawLine(gx, 0f, gx, h, gridPaint); gx += gridSize }
+                while (gx <= w) { canvas.drawLine(gx, 0f, gx, h, gridPaint); gx += 60f }
                 var gy = 0f
-                while (gy <= h) { canvas.drawLine(0f, gy, w, gy, gridPaint); gy += gridSize }
+                while (gy <= h) { canvas.drawLine(0f, gy, w, gy, gridPaint); gy += 60f }
 
                 for (i in 0 until 4) {
                     val phase = (t * 0.7f + i * 0.5f) % (2 * PI.toFloat())
@@ -149,59 +145,55 @@ class SamWallpaperService : WallpaperService() {
                     strokeWidth = 1f
                     style = Paint.Style.STROKE
                 }
-                val cLen = 40f; val margin = 24f
-                canvas.drawLine(margin, margin, margin + cLen, margin, accentPaint)
-                canvas.drawLine(margin, margin, margin, margin + cLen, accentPaint)
-                canvas.drawLine(w - margin, margin, w - margin - cLen, margin, accentPaint)
-                canvas.drawLine(w - margin, margin, w - margin, margin + cLen, accentPaint)
-                canvas.drawLine(margin, h - margin, margin + cLen, h - margin, accentPaint)
-                canvas.drawLine(margin, h - margin, margin, h - margin - cLen, accentPaint)
-                canvas.drawLine(w - margin, h - margin, w - margin - cLen, h - margin, accentPaint)
-                canvas.drawLine(w - margin, h - margin, w - margin, h - margin - cLen, accentPaint)
+                val m = 24f; val cL = 40f
+                canvas.drawLine(m, m, m+cL, m, accentPaint)
+                canvas.drawLine(m, m, m, m+cL, accentPaint)
+                canvas.drawLine(w-m, m, w-m-cL, m, accentPaint)
+                canvas.drawLine(w-m, m, w-m, m+cL, accentPaint)
+                canvas.drawLine(m, h-m, m+cL, h-m, accentPaint)
+                canvas.drawLine(m, h-m, m, h-m-cL, accentPaint)
+                canvas.drawLine(w-m, h-m, w-m-cL, h-m, accentPaint)
+                canvas.drawLine(w-m, h-m, w-m, h-m-cL, accentPaint)
 
                 spawnParticles()
                 val iter = particles.iterator()
                 while (iter.hasNext()) {
                     val p = iter.next()
-                    p.x += p.vx; p.y += p.vy
-                    p.vy -= 0.02f
-                    p.life -= 0.012f
+                    p.x += p.vx; p.y += p.vy; p.vy -= 0.02f; p.life -= 0.012f
                     if (p.life <= 0f) { iter.remove(); continue }
                     particlePaint.alpha = (p.life * 180).toInt()
                     canvas.drawCircle(p.x, p.y, p.size * p.life, particlePaint)
                 }
 
-                val glowScale = 1f + sin(t * 1.2f) * 0.015f
                 val glowAlpha = (180 + sin(t * 1.5f) * 50).toInt().coerceIn(100, 255)
-
                 val glowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
                     color = Color.parseColor("#C9A84C")
                     typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
                     textAlign = Paint.Align.CENTER
-                    textSize = textPaint.textSize * glowScale * 1.02f
+                    textSize = textPaint.textSize * 1.02f
                     alpha = (glowAlpha * 0.3f).toInt()
                     maskFilter = BlurMaskFilter(40f, BlurMaskFilter.Blur.NORMAL)
                 }
                 canvas.drawText("SAM", cx, cy + textPaint.textSize * 0.35f, glowPaint)
-
                 textPaint.alpha = glowAlpha
                 canvas.drawText("SAM", cx, cy + textPaint.textSize * 0.35f, textPaint)
 
-                val dividerW = w * 0.5f
-                val dividerY = cy + textPaint.textSize * 0.6f + 20f
-                val divGrad = LinearGradient(
-                    cx - dividerW / 2, dividerY, cx + dividerW / 2, dividerY,
-                    intArrayOf(Color.TRANSPARENT, Color.parseColor("#C9A84C"), Color.TRANSPARENT),
-                    null, Shader.TileMode.CLAMP
-                )
+                val divW = w * 0.5f
+                val divY = cy + textPaint.textSize * 0.6f + 20f
                 val divPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    shader = divGrad; strokeWidth = 1.2f; style = Paint.Style.STROKE
+                    shader = LinearGradient(
+                        cx - divW/2, divY, cx + divW/2, divY,
+                        intArrayOf(Color.TRANSPARENT, Color.parseColor("#C9A84C"), Color.TRANSPARENT),
+                        null, Shader.TileMode.CLAMP
+                    )
+                    strokeWidth = 1.2f
+                    style = Paint.Style.STROKE
                 }
-                canvas.drawLine(cx - dividerW / 2, dividerY, cx + dividerW / 2, dividerY, divPaint)
+                canvas.drawLine(cx - divW/2, divY, cx + divW/2, divY, divPaint)
 
                 subtextPaint.alpha = (120 + sin(t * 0.8f) * 30).toInt()
-                canvas.drawText("SAMSON MATATA MWINZI", cx, dividerY + 36f, subtextPaint)
-                canvas.drawText("DEVELOPER  ·  ENTREPRENEUR  ·  FOUNDER", cx, dividerY + 62f, subtextPaint)
+                canvas.drawText("SAMSON MATATA MWINZI", cx, divY + 36f, subtextPaint)
+                canvas.drawText("DEVELOPER  ·  ENTREPRENEUR  ·  FOUNDER", cx, divY + 62f, subtextPaint)
 
                 taglinePaint.alpha = (80 + sin(t * 0.6f) * 20).toInt()
                 canvas.drawText("VERTEXT DIGITAL  ·  RUIRU, KENYA", cx, h - 80f, taglinePaint)
@@ -214,7 +206,7 @@ class SamWallpaperService : WallpaperService() {
                 while (sy < h) { canvas.drawLine(0f, sy, w, sy, slPaint); sy += 4f }
 
             } finally {
-                holder.unlockCanvasAndPost(canvas)
+                surfaceHolder.unlockCanvasAndPost(canvas)
             }
         }
     }
