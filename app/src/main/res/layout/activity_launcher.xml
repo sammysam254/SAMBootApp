@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/desktopRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0A0A0F">
+
+    <!-- Desktop wallpaper glow -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/vignette_overlay"/>
+
+    <!-- Desktop app grid -->
+    <GridView
+        android:id="@+id/desktopGrid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:numColumns="4"
+        android:verticalSpacing="16dp"
+        android:horizontalSpacing="8dp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:listSelector="@android:color/transparent"
+        android:stretchMode="columnWidth"/>
+
+    <!-- Start Menu Panel (pops up from bottom) -->
+    <LinearLayout
+        android:id="@+id/startMenuPanel"
+        android:layout_width="match_parent"
+        android:layout_height="480dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="60dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical"
+        android:background="@drawable/win11_panel"
+        android:padding="16dp"
+        android:elevation="16dp">
+
+        <!-- SAM header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="12dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SAM"
+                android:textSize="22sp"
+                android:textColor="#C9A84C"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                android:letterSpacing="0.2"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Samson Matata Mwinzi"
+                android:textSize="10sp"
+                android:textColor="#50C9A84C"
+                android:fontFamily="monospace"/>
+
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#20C9A84C"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- All Apps Grid -->
+        <GridView
+            android:id="@+id/allAppsGrid"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:numColumns="4"
+            android:verticalSpacing="8dp"
+            android:horizontalSpacing="4dp"
+            android:stretchMode="columnWidth"
+            android:listSelector="@android:color/transparent"/>
+
+        <!-- Bottom bar -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#20C9A84C"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <ImageButton
+                android:id="@+id/powerBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_lock_power_off"
+                android:background="@drawable/win11_btn"
+                android:tint="#C9A84C"
+                android:padding="8dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Windows 11 style Taskbar -->
+    <LinearLayout
+        android:id="@+id/taskbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/win11_taskbar"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:elevation="8dp">
+
+        <!-- Search -->
+        <ImageButton
+            android:id="@+id/searchBtn"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@android:drawable/ic_menu_search"
+            android:background="@drawable/win11_btn"
+            android:tint="#A0A0C0"
+            android:padding="10dp"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- START BUTTON — centered Windows logo style -->
+        <FrameLayout
+            android:id="@+id/startBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/win11_start_btn"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="⊞"
+                android:textSize="22sp"
+                android:textColor="#C9A84C"/>
+
+        </FrameLayout>
+
+        <!-- Settings -->
+        <ImageButton
+            android:id="@+id/settingsBtn"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@android:drawable/ic_menu_preferences"
+            android:background="@drawable/win11_btn"
+            android:tint="#A0A0C0"
+            android:padding="10dp"
+            android:layout_marginStart="8dp"/>
+
+        <!-- Clock area -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center|end"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:id="@+id/clockText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textSize="14sp"
+                android:textColor="#D0D0E0"
+                android:fontFamily="sans-serif-light"/>
+
+            <TextView
+                android:id="@+id/dateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mon, Jan 1"
+                android:textSize="9sp"
+                android:textColor="#80A0A0C0"
+                android:fontFamily="sans-serif-light"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
