@@ -1,0 +1,2 @@
+-keep class com.samson.bootscreen.** { *; }
+-keepclassmembers class com.samson.bootscreen.** { *; }

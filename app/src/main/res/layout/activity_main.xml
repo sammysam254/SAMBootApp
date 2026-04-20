@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <!-- Wallpaper-style static bg for the home screen -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SAM"
+            android:textSize="96sp"
+            android:textColor="#C9A84C"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="bold"
+            android:letterSpacing="0.25"
+            android:shadowColor="#C9A84C"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="30"
+            android:layout_gravity="center"
+            android:gravity="center" />
+
+        <View
+            android:layout_width="200dp"
+            android:layout_height="1dp"
+            android:background="@drawable/gold_divider"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Samson Matata Mwinzi"
+            android:textSize="12sp"
+            android:textColor="#7A6020"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.1"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Developer · Entrepreneur · Founder"
+            android:textSize="10sp"
+            android:textColor="#50C9A84C"
+            android:fontFamily="sans-serif-light"
+            android:letterSpacing="0.15"
+            android:layout_marginTop="6dp"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vertext Digital · Ruiru, Kenya"
+            android:textSize="9sp"
+            android:textColor="#30C9A84C"
+            android:fontFamily="monospace"
+            android:layout_marginTop="4dp"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- Live wallpaper set button -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="60dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/btnSetWallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="SET AS LIVE WALLPAPER"
+            android:textSize="10sp"
+            android:textColor="#C9A84C"
+            android:letterSpacing="0.15"
+            android:backgroundTint="#00000000"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:onClick="setLiveWallpaper" />
+
+    </LinearLayout>
+
+    <!-- Vignette -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/vignette_overlay" />
+
+</FrameLayout>
