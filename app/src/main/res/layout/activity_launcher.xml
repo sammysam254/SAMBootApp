@@ -6,8 +6,9 @@
     android:background="#000008">
 
     <!-- ANIMATED WALLPAPER CANVAS -->
-    <com.samson.bootscreen.WallpaperView
+    <View
         android:id="@+id/wallpaperCanvas"
+        android:background="#0D0D1E"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
