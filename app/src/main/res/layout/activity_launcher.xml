@@ -4,93 +4,227 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000008">
-    <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/win11_wallpaper"/>
-    <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/vignette_overlay"/>
+
+    <!-- ANIMATED WALLPAPER CANVAS -->
+    <com.samson.bootscreen.WallpaperView
+        android:id="@+id/wallpaperCanvas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <!-- NOTIFICATION TOAST -->
-    <FrameLayout android:id="@+id/notifToast" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="top" android:layout_marginTop="12dp" android:layout_marginStart="12dp" android:layout_marginEnd="12dp" android:visibility="gone" android:elevation="30dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/win11_panel" android:orientation="horizontal" android:padding="12dp" android:gravity="center_vertical">
-            <ImageView android:id="@+id/notifIcon" android:layout_width="28dp" android:layout_height="28dp" android:src="@mipmap/ic_launcher" android:layout_marginEnd="10dp"/>
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                <TextView android:id="@+id/notifTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SAM" android:textSize="11sp" android:textColor="#E0E0E8" android:textStyle="bold"/>
-                <TextView android:id="@+id/notifText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Welcome" android:textSize="10sp" android:textColor="#80C0C0D0"/>
+    <FrameLayout android:id="@+id/notifToast"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_gravity="top" android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp" android:layout_marginEnd="12dp"
+        android:visibility="gone" android:elevation="30dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@drawable/win11_panel" android:orientation="horizontal"
+            android:padding="12dp" android:gravity="center_vertical">
+            <ImageView android:id="@+id/notifIcon" android:layout_width="28dp"
+                android:layout_height="28dp" android:src="@mipmap/ic_launcher"
+                android:layout_marginEnd="10dp"/>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:orientation="vertical">
+                <TextView android:id="@+id/notifTitle" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="SAM"
+                    android:textSize="11sp" android:textColor="#E0E0E8" android:textStyle="bold"/>
+                <TextView android:id="@+id/notifText" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="Welcome"
+                    android:textSize="10sp" android:textColor="#80C0C0D0"/>
             </LinearLayout>
-            <TextView android:id="@+id/notifTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="now" android:textSize="9sp" android:textColor="#50C9A84C"/>
+            <TextView android:id="@+id/notifTime" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="now"
+                android:textSize="9sp" android:textColor="#50C9A84C"/>
         </LinearLayout>
     </FrameLayout>
+
     <!-- START MENU -->
-    <LinearLayout android:id="@+id/startMenuPanel" android:layout_width="match_parent" android:layout_height="540dp" android:layout_gravity="bottom" android:layout_marginBottom="68dp" android:layout_marginStart="8dp" android:layout_marginEnd="8dp" android:orientation="vertical" android:background="@drawable/win11_panel" android:padding="14dp" android:elevation="24dp" android:visibility="gone">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="46dp" android:background="@drawable/win11_search_bg" android:orientation="horizontal" android:gravity="center_vertical" android:paddingStart="12dp" android:paddingEnd="12dp" android:layout_marginBottom="10dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🔍" android:textSize="14sp" android:layout_marginEnd="8dp"/>
-            <EditText android:id="@+id/startMenuSearch" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:hint="Search apps..." android:textColorHint="#40C0C0D0" android:textColor="#E0E0E8" android:textSize="13sp" android:background="@null" android:imeOptions="actionSearch" android:inputType="text" android:singleLine="true"/>
+    <LinearLayout android:id="@+id/startMenuPanel"
+        android:layout_width="match_parent" android:layout_height="540dp"
+        android:layout_gravity="bottom" android:layout_marginBottom="68dp"
+        android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+        android:orientation="vertical" android:background="@drawable/win11_panel"
+        android:padding="14dp" android:elevation="24dp" android:visibility="gone">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="46dp"
+            android:background="@drawable/win11_search_bg" android:orientation="horizontal"
+            android:gravity="center_vertical" android:paddingStart="12dp"
+            android:paddingEnd="12dp" android:layout_marginBottom="10dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="🔍" android:textSize="14sp" android:layout_marginEnd="8dp"/>
+            <EditText android:id="@+id/startMenuSearch" android:layout_width="0dp"
+                android:layout_height="match_parent" android:layout_weight="1"
+                android:hint="Search apps..." android:textColorHint="#40C0C0D0"
+                android:textColor="#E0E0E8" android:textSize="13sp" android:background="@null"
+                android:imeOptions="actionSearch" android:inputType="text" android:singleLine="true"/>
         </LinearLayout>
-        <GridView android:id="@+id/searchResultGrid" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:numColumns="4" android:verticalSpacing="6dp" android:horizontalSpacing="4dp" android:stretchMode="columnWidth" android:listSelector="@android:color/transparent" android:visibility="gone"/>
-        <LinearLayout android:id="@+id/pinnedLabelRow" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="8dp">
-            <TextView android:id="@+id/pinnedLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Pinned" android:textSize="11sp" android:textColor="#C0C0D8" android:textStyle="bold"/>
-            <TextView android:id="@+id/allAppsBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="All apps ›" android:textSize="10sp" android:textColor="#80C9A84C" android:paddingStart="10dp" android:paddingEnd="10dp" android:paddingTop="6dp" android:paddingBottom="6dp" android:background="@drawable/win11_btn"/>
+        <GridView android:id="@+id/searchResultGrid" android:layout_width="match_parent"
+            android:layout_height="0dp" android:layout_weight="1" android:numColumns="4"
+            android:verticalSpacing="6dp" android:horizontalSpacing="4dp"
+            android:stretchMode="columnWidth" android:listSelector="@android:color/transparent"
+            android:visibility="gone"/>
+        <LinearLayout android:id="@+id/pinnedLabelRow" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="horizontal"
+            android:gravity="center_vertical" android:layout_marginBottom="8dp">
+            <TextView android:id="@+id/pinnedLabel" android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:text="Pinned" android:textSize="11sp" android:textColor="#C0C0D8"
+                android:textStyle="bold"/>
+            <TextView android:id="@+id/allAppsBtn" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="All apps ›"
+                android:textSize="10sp" android:textColor="#80C9A84C"
+                android:paddingStart="10dp" android:paddingEnd="10dp"
+                android:paddingTop="6dp" android:paddingBottom="6dp"
+                android:background="@drawable/win11_btn"/>
         </LinearLayout>
-        <GridView android:id="@+id/pinnedGrid" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:numColumns="5" android:verticalSpacing="4dp" android:horizontalSpacing="4dp" android:stretchMode="columnWidth" android:listSelector="@android:color/transparent"/>
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#20C9A84C" android:layout_marginTop="8dp" android:layout_marginBottom="8dp"/>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="44dp" android:orientation="horizontal" android:gravity="center_vertical">
-            <FrameLayout android:layout_width="34dp" android:layout_height="34dp" android:background="@drawable/win11_start_btn">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="S" android:textSize="16sp" android:textColor="#C9A84C" android:textStyle="bold"/>
+        <GridView android:id="@+id/pinnedGrid" android:layout_width="match_parent"
+            android:layout_height="0dp" android:layout_weight="1" android:numColumns="5"
+            android:verticalSpacing="4dp" android:horizontalSpacing="4dp"
+            android:stretchMode="columnWidth" android:listSelector="@android:color/transparent"/>
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:background="#20C9A84C" android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="44dp"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <FrameLayout android:layout_width="34dp" android:layout_height="34dp"
+                android:background="@drawable/win11_start_btn">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_gravity="center" android:text="S" android:textSize="16sp"
+                    android:textColor="#C9A84C" android:textStyle="bold"/>
             </FrameLayout>
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Samson Matata Mwinzi" android:textSize="11sp" android:textColor="#C0C0D8" android:layout_marginStart="10dp"/>
-            <FrameLayout android:id="@+id/powerBtn" android:layout_width="40dp" android:layout_height="40dp" android:background="@drawable/win11_btn">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="⏻" android:textSize="18sp" android:textColor="#C9A84C"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="Samson Matata Mwinzi"
+                android:textSize="11sp" android:textColor="#C0C0D8" android:layout_marginStart="10dp"/>
+            <FrameLayout android:id="@+id/powerBtn" android:layout_width="40dp"
+                android:layout_height="40dp" android:background="@drawable/win11_btn">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_gravity="center" android:text="⏻" android:textSize="18sp"
+                    android:textColor="#C9A84C"/>
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>
+
     <!-- ALL APPS -->
-    <LinearLayout android:id="@+id/allAppsPanel" android:layout_width="match_parent" android:layout_height="540dp" android:layout_gravity="bottom" android:layout_marginBottom="68dp" android:layout_marginStart="8dp" android:layout_marginEnd="8dp" android:orientation="vertical" android:background="@drawable/win11_panel" android:padding="14dp" android:elevation="24dp" android:visibility="gone">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
-            <TextView android:id="@+id/backToStartBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="‹ Back" android:textSize="11sp" android:textColor="#80C9A84C" android:background="@drawable/win11_btn" android:paddingStart="12dp" android:paddingEnd="12dp" android:paddingTop="6dp" android:paddingBottom="6dp"/>
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="All Apps" android:textSize="12sp" android:textColor="#C0C0D8" android:textStyle="bold" android:gravity="center"/>
+    <LinearLayout android:id="@+id/allAppsPanel"
+        android:layout_width="match_parent" android:layout_height="540dp"
+        android:layout_gravity="bottom" android:layout_marginBottom="68dp"
+        android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+        android:orientation="vertical" android:background="@drawable/win11_panel"
+        android:padding="14dp" android:elevation="24dp" android:visibility="gone">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+            <TextView android:id="@+id/backToStartBtn" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="‹ Back"
+                android:textSize="11sp" android:textColor="#80C9A84C"
+                android:background="@drawable/win11_btn" android:paddingStart="12dp"
+                android:paddingEnd="12dp" android:paddingTop="6dp" android:paddingBottom="6dp"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="All Apps" android:textSize="12sp"
+                android:textColor="#C0C0D8" android:textStyle="bold" android:gravity="center"/>
         </LinearLayout>
-        <GridView android:id="@+id/allAppsGrid" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:numColumns="4" android:verticalSpacing="8dp" android:horizontalSpacing="4dp" android:stretchMode="columnWidth" android:listSelector="@android:color/transparent"/>
+        <GridView android:id="@+id/allAppsGrid" android:layout_width="match_parent"
+            android:layout_height="0dp" android:layout_weight="1" android:numColumns="4"
+            android:verticalSpacing="8dp" android:horizontalSpacing="4dp"
+            android:stretchMode="columnWidth" android:listSelector="@android:color/transparent"/>
     </LinearLayout>
+
     <!-- AI PANEL -->
-    <LinearLayout android:id="@+id/aiPanel" android:layout_width="match_parent" android:layout_height="420dp" android:layout_gravity="bottom" android:layout_marginBottom="68dp" android:layout_marginStart="8dp" android:layout_marginEnd="8dp" android:orientation="vertical" android:background="@drawable/win11_panel" android:padding="18dp" android:elevation="24dp" android:visibility="gone">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="12dp">
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SAM AI" android:textSize="16sp" android:textColor="#C9A84C" android:textStyle="bold"/>
-                <TextView android:id="@+id/aiStatusText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tap mic to speak" android:textSize="10sp" android:textColor="#60C0C0D0"/>
+    <LinearLayout android:id="@+id/aiPanel"
+        android:layout_width="match_parent" android:layout_height="420dp"
+        android:layout_gravity="bottom" android:layout_marginBottom="68dp"
+        android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+        android:orientation="vertical" android:background="@drawable/win11_panel"
+        android:padding="18dp" android:elevation="24dp" android:visibility="gone">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="SAM AI" android:textSize="16sp" android:textColor="#C9A84C"
+                    android:textStyle="bold"/>
+                <TextView android:id="@+id/aiStatusText" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="Tap mic to speak"
+                    android:textSize="10sp" android:textColor="#60C0C0D0"/>
             </LinearLayout>
-            <FrameLayout android:id="@+id/aiCloseBtn" android:layout_width="36dp" android:layout_height="36dp" android:background="@drawable/win11_btn">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="✕" android:textSize="14sp" android:textColor="#80C0C0D0"/>
+            <FrameLayout android:id="@+id/aiCloseBtn" android:layout_width="36dp"
+                android:layout_height="36dp" android:background="@drawable/win11_btn">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_gravity="center" android:text="✕" android:textSize="14sp"
+                    android:textColor="#80C0C0D0"/>
             </FrameLayout>
         </LinearLayout>
-        <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:background="@drawable/win11_search_bg" android:padding="12dp" android:layout_marginBottom="12dp">
-            <TextView android:id="@+id/aiText" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Hello Samson! I am SAM AI.\n\nI can:\n• Call contacts or numbers\n• Search Google in Chrome\n• Play music on Spotify\n• Open any app\n• Set alarms\n• Check weather\n• Send WhatsApp messages\n\nTap the mic and speak!" android:textSize="12sp" android:textColor="#C0C0D8" android:lineSpacingMultiplier="1.5"/>
+        <ScrollView android:layout_width="match_parent" android:layout_height="0dp"
+            android:layout_weight="1" android:background="@drawable/win11_search_bg"
+            android:padding="12dp" android:layout_marginBottom="12dp">
+            <TextView android:id="@+id/aiText" android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hello Samson! I am SAM AI.\n\nI can:\n• Call contacts or numbers\n• Search Google in Chrome\n• Play music on Spotify\n• Open any app\n• Set alarms\n• Check weather\n\nTap the mic and speak!"
+                android:textSize="12sp" android:textColor="#C0C0D8"
+                android:lineSpacingMultiplier="1.5"/>
         </ScrollView>
-        <FrameLayout android:id="@+id/aiMicBtn" android:layout_width="64dp" android:layout_height="64dp" android:layout_gravity="center_horizontal" android:background="@drawable/win11_start_btn" android:elevation="4dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🎤" android:textSize="28sp"/>
+        <FrameLayout android:id="@+id/aiMicBtn" android:layout_width="64dp"
+            android:layout_height="64dp" android:layout_gravity="center_horizontal"
+            android:background="@drawable/win11_start_btn" android:elevation="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="center" android:text="🎤" android:textSize="28sp"/>
         </FrameLayout>
     </LinearLayout>
+
     <!-- TASKBAR -->
-    <LinearLayout android:id="@+id/taskbar" android:layout_width="match_parent" android:layout_height="68dp" android:layout_gravity="bottom" android:background="@drawable/win11_taskbar" android:orientation="horizontal" android:gravity="center" android:paddingStart="8dp" android:paddingEnd="8dp" android:elevation="12dp">
+    <LinearLayout android:id="@+id/taskbar"
+        android:layout_width="match_parent" android:layout_height="68dp"
+        android:layout_gravity="bottom" android:background="@drawable/win11_taskbar"
+        android:orientation="horizontal" android:gravity="center"
+        android:paddingStart="8dp" android:paddingEnd="8dp" android:elevation="12dp">
         <Space android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
-        <FrameLayout android:id="@+id/searchBtn" android:layout_width="46dp" android:layout_height="46dp" android:background="@drawable/win11_btn" android:layout_marginEnd="4dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="⌕" android:textSize="22sp" android:textColor="#A0A0C0"/>
+        <FrameLayout android:id="@+id/searchBtn" android:layout_width="46dp"
+            android:layout_height="46dp" android:background="@drawable/win11_btn"
+            android:layout_marginEnd="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="center" android:text="⌕" android:textSize="22sp"
+                android:textColor="#A0A0C0"/>
         </FrameLayout>
-        <FrameLayout android:id="@+id/startBtn" android:layout_width="52dp" android:layout_height="52dp" android:background="@drawable/win11_start_btn" android:layout_marginStart="2dp" android:layout_marginEnd="2dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="⊞" android:textSize="24sp" android:textColor="#C9A84C"/>
+        <FrameLayout android:id="@+id/startBtn" android:layout_width="52dp"
+            android:layout_height="52dp" android:background="@drawable/win11_start_btn"
+            android:layout_marginStart="2dp" android:layout_marginEnd="2dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="center" android:text="⊞" android:textSize="24sp"
+                android:textColor="#C9A84C"/>
         </FrameLayout>
-        <FrameLayout android:id="@+id/aiBtn" android:layout_width="46dp" android:layout_height="46dp" android:background="@drawable/win11_start_btn" android:layout_marginStart="2dp" android:layout_marginEnd="4dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🤖" android:textSize="20sp"/>
+        <FrameLayout android:id="@+id/aiBtn" android:layout_width="46dp"
+            android:layout_height="46dp" android:background="@drawable/win11_start_btn"
+            android:layout_marginStart="2dp" android:layout_marginEnd="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="center" android:text="🤖" android:textSize="20sp"/>
         </FrameLayout>
-        <FrameLayout android:id="@+id/filesBtn" android:layout_width="46dp" android:layout_height="46dp" android:background="@drawable/win11_btn" android:layout_marginEnd="4dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="📁" android:textSize="20sp"/>
+        <FrameLayout android:id="@+id/filesBtn" android:layout_width="46dp"
+            android:layout_height="46dp" android:background="@drawable/win11_btn"
+            android:layout_marginEnd="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="center" android:text="📁" android:textSize="20sp"/>
         </FrameLayout>
-        <FrameLayout android:id="@+id/browserBtn" android:layout_width="46dp" android:layout_height="46dp" android:background="@drawable/win11_btn" android:layout_marginEnd="4dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🌐" android:textSize="20sp"/>
+        <FrameLayout android:id="@+id/browserBtn" android:layout_width="46dp"
+            android:layout_height="46dp" android:background="@drawable/win11_btn"
+            android:layout_marginEnd="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="center" android:text="🌐" android:textSize="20sp"/>
         </FrameLayout>
-        <FrameLayout android:id="@+id/cameraBtn" android:layout_width="46dp" android:layout_height="46dp" android:background="@drawable/win11_btn" android:layout_marginEnd="4dp">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="📷" android:textSize="20sp"/>
+        <FrameLayout android:id="@+id/cameraBtn" android:layout_width="46dp"
+            android:layout_height="46dp" android:background="@drawable/win11_btn"
+            android:layout_marginEnd="4dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="center" android:text="📷" android:textSize="20sp"/>
         </FrameLayout>
         <Space android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
-        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center" android:layout_marginEnd="6dp">
-            <TextView android:id="@+id/clockText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="00:00" android:textSize="14sp" android:textColor="#D0D0E8" android:textStyle="bold"/>
-            <TextView android:id="@+id/dateText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mon, Jan 1" android:textSize="8sp" android:textColor="#50A0A0C0"/>
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:orientation="vertical" android:gravity="center" android:layout_marginEnd="6dp">
+            <TextView android:id="@+id/clockText" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="00:00"
+                android:textSize="14sp" android:textColor="#D0D0E8" android:textStyle="bold"/>
+            <TextView android:id="@+id/dateText" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="Mon, Jan 1"
+                android:textSize="8sp" android:textColor="#50A0A0C0"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
