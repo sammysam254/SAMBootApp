@@ -1,40 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splashRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="SAM"
-        android:textSize="80sp"
-        android:textColor="#C9A84C"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-condensed"
-        android:shadowColor="#C9A84C"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="30"/>
+    <!-- Scanlines texture overlay -->
+    <View
+        android:id="@+id/scanlines"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/scanlines_overlay"
+        android:alpha="0"
+        android:elevation="6dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <!-- Pulse rings -->
+    <View
+        android:id="@+id/ring3"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
         android:layout_gravity="center"
-        android:layout_marginTop="120dp"
-        android:text="by Samson Matata Mwinzi"
-        android:textSize="12sp"
-        android:textColor="#7A6020"
-        android:fontFamily="monospace"/>
-
-    <ProgressBar
-        android:layout_width="120dp"
-        android:layout_height="4dp"
-        android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="80dp"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:indeterminate="true"
-        android:indeterminateTint="#C9A84C"/>
+        android:background="@drawable/ring_circle"
+        android:alpha="0" />
+
+    <View
+        android:id="@+id/ring2"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/ring_circle"
+        android:alpha="0" />
+
+    <View
+        android:id="@+id/ring1"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/ring_circle"
+        android:alpha="0" />
+
+    <!-- Main content block, vertically centered slightly above middle -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="80dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- SAM Letters row -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:letterSpacing="0.3">
+
+            <TextView
+                android:id="@+id/letterS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S"
+                android:textSize="88sp"
+                android:textColor="#E8E8E8"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                android:letterSpacing="0.25"
+                android:alpha="0"
+                android:visibility="visible"
+                android:shadowColor="#C9A84C"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="24" />
+
+            <TextView
+                android:id="@+id/letterA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A"
+                android:textSize="88sp"
+                android:textColor="#E8E8E8"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                android:letterSpacing="0.25"
+                android:alpha="0"
+                android:visibility="visible"
+                android:shadowColor="#C9A84C"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="24" />
+
+            <TextView
+                android:id="@+id/letterM"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="M"
+                android:textSize="88sp"
+                android:textColor="#E8E8E8"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                android:letterSpacing="0.25"
+                android:alpha="0"
+                android:visibility="visible"
+                android:shadowColor="#C9A84C"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="24" />
+
+        </LinearLayout>
+
+        <!-- Tagline -->
+        <TextView
+            android:id="@+id/tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="by Samson Matata Mwinzi"
+            android:textSize="11sp"
+            android:textColor="#7A6020"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.18"
+            android:alpha="0"
+            android:translationY="16dp"
+            android:visibility="invisible" />
+
+        <!-- Gold divider -->
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/gold_divider"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+    <!-- Intro block — bottom center -->
+    <LinearLayout
+        android:id="@+id/introBlock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="120dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:alpha="0"
+        android:translationY="20dp"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Developer  ·  Entrepreneur  ·  Founder"
+            android:textSize="9.5sp"
+            android:textColor="#60C9A84C"
+            android:fontFamily="sans-serif-light"
+            android:letterSpacing="0.2"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ruiru, Kenya  ·  Vertext Digital"
+            android:textSize="9.5sp"
+            android:textColor="#60C9A84C"
+            android:fontFamily="sans-serif-light"
+            android:letterSpacing="0.2"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Building software that solves real problems"
+            android:textSize="9sp"
+            android:textColor="#40C9A84C"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.1" />
+
+    </LinearLayout>
+
+    <!-- Progress bar -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="56dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="200dp"
+            android:layout_height="3dp"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/progress_gold"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/progressPct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:textSize="8sp"
+            android:textColor="#7A6020"
+            android:fontFamily="monospace"
+            android:layout_gravity="end"
+            android:layout_marginTop="4dp"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+    <!-- Vignette -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/vignette_overlay"
+        android:elevation="5dp" />
 
 </FrameLayout>
