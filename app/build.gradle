@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.samson.bootscreen'
+    namespace 'com.samson.samlauncher'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.samson.bootscreen"
+        applicationId "com.samson.samlauncher"
         minSdk 26
         targetSdk 34
         versionCode 1
